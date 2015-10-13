@@ -288,7 +288,18 @@
   // _.memoize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
-  _.memoize = function(func) {};
+  _.memoize = function(func) {
+    var result = {};
+
+    return function() {
+      var key = Array.prototype.slice.call(arguments).join(',');
+      if (!result.hasOwnProperty(key)) {
+        result[key] = func.apply(this, arguments);
+      }
+
+      return result[key];
+    };
+  };
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
@@ -296,7 +307,12 @@
   // The arguments for the original function are passed after the wait
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
-  _.delay = function(func, wait) {};
+  _.delay = function(func, wait) {
+    var myArgs = Array.prototype.slice.call(arguments).slice(2);
+    setTimeout(function() {
+      func.apply(null, myArgs);
+    }, wait);
+  };
 
 
   /**

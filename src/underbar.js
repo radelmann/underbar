@@ -325,7 +325,16 @@
   // TIP: This function's test suite will ask that you not modify the original
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
-  _.shuffle = function(array) {};
+  _.shuffle = function(array) {
+    var length = array.length;
+    var shuffled = array.slice();
+    for (var index = 0, rand; index < length; index++) {
+      rand = Math.floor(Math.random() * index);
+      if (rand !== index) shuffled[index] = shuffled[rand];
+      shuffled[rand] = array[index];
+    }
+    return shuffled;
+  };
 
 
   /**
@@ -338,13 +347,36 @@
 
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
-  _.invoke = function(collection, functionOrKey, args) {};
+  _.invoke = function(collection, functionOrKey, args) {
+    var result = [];
+    for (var i = 0, item; i < collection.length; i++) {
+      item = collection[i];
+      if (typeof functionOrKey === 'function') {
+        result.push(functionOrKey.apply(item, args));
+      } else {
+        result.push(item[functionOrKey].apply(item, args));
+      }
+    }
+    return result;
+  };
 
   // Sort the object's values by a criterion produced by an iterator.
   // If iterator is a string, sort objects by that property with the name
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
-  _.sortBy = function(collection, iterator) {};
+  _.sortBy = function(collection, iterator) {
+    if (typeof iterator === 'function') {
+      //sort by iterator fn
+      return collection.sort(function(a, b) {
+        return iterator(a) > iterator(b);
+      });
+    } else {
+      //sort by iterator property
+      return collection.sort(function(a, b) {
+        return a[iterator] > b[iterator];
+      });
+    }
+  };
 
   // Zip together two or more arrays with elements of the same index
   // going together.

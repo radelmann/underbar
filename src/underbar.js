@@ -418,11 +418,34 @@
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
-  _.intersection = function() {};
+  _.intersection = function() {
+    var result = [];
+    var targets = arguments[0];
+    var remain = Array.prototype.slice.call(arguments).slice(1, arguments.length);
+
+    _.each(targets, function(target) {
+      if (_.every(remain, function(collection) {
+          return _.contains(collection, target);
+        })) result.push(target);
+    });
+
+    return result;
+  };
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
-  _.difference = function(array) {};
+  _.difference = function(array) {
+    var result = [];
+    var targets = arguments[0];
+    var remain = Array.prototype.slice.call(arguments).slice(1, arguments.length);
+
+    _.each(targets, function(target) {
+      if (_.every(remain, function(collection) {
+          return (_.contains(collection, target) === false);
+        })) result.push(target);
+    });
+    return result;
+  };
 
   // Returns a function, that, when invoked, will only be triggered at most once
   // during a given window of time.  See the Underbar readme for extra details

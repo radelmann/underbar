@@ -452,6 +452,10 @@
   // on this function.
   //
   // Note: This is difficult! It may take a while to implement.
+  _.now = Date.now || function() {
+    return new Date().getTime();
+  };
+
   _.throttle = function(func, wait) {
     var lastCalled; //last time func called
     var value; //cached value from func

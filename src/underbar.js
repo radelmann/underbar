@@ -383,13 +383,38 @@
   //
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
-  _.zip = function() {};
+  _.zip = function() {
+    var result = [];
+
+    for (var i = 0; i < arguments.length; i++) {
+      result[i] = _.pluck(arguments, i);
+    }
+    return result;
+  };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
   // The new array should contain all elements of the multidimensional array.
   //
   // Hint: Use Array.isArray to check if something is an array
-  _.flatten = function(nestedArray, result) {};
+  _.flatten = function(nestedArray, result) {
+    result = _.reduce(nestedArray, function(memo, item) {
+      memo = check(memo, item);
+      return memo;
+
+      function check(memo, item) {
+        if (Array.isArray(item)) {
+          for (var i = 0; i < item.length; i++) {
+            memo = check(memo, item[i]);
+          }
+        } else {
+          memo.push(item);
+        }
+        return memo;
+      }
+    }, []);
+
+    return result;
+  };
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.

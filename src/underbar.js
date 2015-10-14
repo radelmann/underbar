@@ -452,5 +452,35 @@
   // on this function.
   //
   // Note: This is difficult! It may take a while to implement.
-  _.throttle = function(func, wait) {};
+  _.throttle = function(func, wait) {
+    var lastCalled; //last time func called
+    var value; //cached value from func
+    var myArgs; //cached arguments
+    var queued = false;
+    var timer;
+
+    function runLater() {
+      var now = _.now();
+      clearTimeout(timer);
+      value = func.apply(null, myArgs);
+      lastCalled = now;
+      queued = false;
+    }
+
+    return function() {
+      var now = _.now();
+      if ((typeof lastCalled === 'undefined') || (now - lastCalled > wait)) {
+        value = func.apply(null, arguments);
+        lastCalled = now;
+      } else if (queued === false) {
+        //get remaining time and set timeout to call func
+        queued = true;
+        var remain = wait - (now - lastCalled);
+        myArgs = arguments;
+        timer = setTimeout(runLater, remain);
+      }
+
+      return value; //always return value from last sucessful call
+    }
+  };
 }());

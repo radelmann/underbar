@@ -316,12 +316,12 @@
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
     var length = array.length;
-    var shuffled = array.slice();
-    for (var index = 0, rand; index < length; index++) {
-      rand = Math.floor(Math.random() * index);
-      if (rand !== index) shuffled[index] = shuffled[rand];
-      shuffled[rand] = array[index];
-    }
+    var shuffled = array.splice();
+    for (var i = 0, rand; i < array.length; i++) {
+      rand = Math.floor(Math.random() * i);
+      if (rand !== i) shuffled[i] = shuffled[rand];
+      shuffled[rand] = array[i];
+    };
     return shuffled;
   };
 

@@ -180,7 +180,7 @@
     // TIP: Try re-using reduce() here.
     return _.reduce(collection, function(allTrue, item) {
       iterator = iterator || _.identity;
-      if (allTrue) allTrue = iterator(item) ? true : false;
+      if (allTrue) allTrue = iterator.call(null, item) ? true : false;
       return allTrue;
     }, true);
   };
@@ -193,7 +193,7 @@
     // since it's not neccesssary to loop through the entire collection once you get one truthy value
     return !_.every(collection, function(item) {
       iterator = iterator || _.identity;
-      return !iterator(item);
+      return !iterator.call(null, item);
     });
   };
 

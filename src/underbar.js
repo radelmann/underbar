@@ -337,16 +337,13 @@
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
-    var result = [];
-    for (var i = 0, item; i < collection.length; i++) {
-      item = collection[i];
+    return _.map(collection, function(item) {
       if (typeof functionOrKey === 'function') {
-        result.push(functionOrKey.apply(item, args));
+        return functionOrKey.apply(item);
       } else {
-        result.push(item[functionOrKey].apply(item, args));
+        return item[functionOrKey].apply(item);
       }
-    }
-    return result;
+    });
   };
 
   // Sort the object's values by a criterion produced by an iterator.
@@ -374,10 +371,10 @@
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
     var result = [];
-
-    for (var i = 0; i < arguments.length; i++) {
-      result[i] = _.pluck(arguments, i);
-    }
+    var args = Array.prototype.slice.call(arguments);
+    for (var i = 0; i < args.length; i++) {
+      result.push(_.pluck(args, i));
+    };
     return result;
   };
 
@@ -386,23 +383,16 @@
   //
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
-    result = _.reduce(nestedArray, function(memo, item) {
-      memo = check(memo, item);
-      return memo;
-
-      function check(memo, item) {
-        if (Array.isArray(item)) {
-          for (var i = 0; i < item.length; i++) {
-            memo = check(memo, item[i]);
-          }
-        } else {
-          memo.push(item);
-        }
-        return memo;
+    //use reduce && recursion
+    result = result || [];
+    return _.reduce(nestedArray, function(result, item) {
+      if (Array.isArray(item)) {
+        result = _.flatten(item, result);
+      } else {
+        result.push(item);
       }
-    }, []);
-
-    return result;
+      return result;
+    }, result);
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains

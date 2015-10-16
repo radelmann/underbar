@@ -82,7 +82,7 @@
   _.filter = function(collection, test) {
     var result = [];
     _.each(collection, function(item) {
-      if (test(item)) result.push(item);
+      if (test.call(null, item)) result.push(item);
     });
     return result;
   };

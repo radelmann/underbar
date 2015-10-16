@@ -354,7 +354,7 @@
     if (typeof iterator === 'function') {
       //sort by iterator fn
       return collection.sort(function(a, b) {
-        return iterator(a) > iterator(b);
+        return iterator.call(this, a) > iterator.call(this, b);
       });
     } else {
       //sort by iterator property

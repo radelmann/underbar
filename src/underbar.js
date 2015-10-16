@@ -82,9 +82,7 @@
   _.filter = function(collection, test) {
     var result = [];
     _.each(collection, function(item) {
-      if (test(item)) {
-        result.push(item);
-      }
+      if (test(item)) result.push(item);
     });
     return result;
   };
@@ -94,8 +92,8 @@
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
     return _.filter(collection, function(item) {
-      if (test(item) === false) return true;
-    })
+      return !test(item);
+    });
   };
 
   // Produce a duplicate-free version of the array.

@@ -52,11 +52,11 @@
   _.each = function(collection, iterator) {
     if (Array.isArray(collection)) {
       for (var i = 0; i < collection.length; i++) {
-        iterator.call(null, collection[i], i, collection);
+        iterator.call(this, collection[i], i, collection);
       }
     } else {
       for (var key in collection) {
-        iterator.call(null, collection[key], key, collection);
+        iterator.call(this, collection[key], key, collection);
       }
     }
   };
@@ -112,7 +112,7 @@
     // the members, it also maintains an array of results.
     var result = [];
     this.each(collection, function(item) {
-      result.push(iterator.call(null, item));
+      result.push(iterator.call(this, item));
     });
     return result;
   };
@@ -157,7 +157,7 @@
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
     _.each(collection, function(item) {
-      accumulator = accumulator === undefined ? item : iterator.call(null, accumulator, item);
+      accumulator = accumulator === undefined ? item : iterator.call(this, accumulator, item);
     });
     return accumulator;
   };
@@ -180,7 +180,7 @@
     // TIP: Try re-using reduce() here.
     return _.reduce(collection, function(allTrue, item) {
       iterator = iterator || _.identity;
-      if (allTrue) allTrue = iterator.call(null, item) ? true : false;
+      if (allTrue) allTrue = iterator.call(this, item) ? true : false;
       return allTrue;
     }, true);
   };
@@ -193,7 +193,7 @@
     // since it's not neccesssary to loop through the entire collection once you get one truthy value
     return !_.every(collection, function(item) {
       iterator = iterator || _.identity;
-      return !iterator.call(null, item);
+      return !iterator.call(this, item);
     });
   };
 

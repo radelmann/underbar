@@ -339,9 +339,9 @@
   _.invoke = function(collection, functionOrKey, args) {
     return _.map(collection, function(item) {
       if (typeof functionOrKey === 'function') {
-        return functionOrKey.apply(item);
+        return functionOrKey.apply(item, args);
       } else {
-        return item[functionOrKey].apply(item);
+        return item[functionOrKey].apply(item, args);
       }
     });
   };

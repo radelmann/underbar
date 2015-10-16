@@ -218,7 +218,7 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
-    var args = Array.prototype.slice.call(arguments).splice(1);
+    var args = Array.prototype.slice.call(arguments, 1);
     for (var i = 0; i < args.length; i++) {
       for (var key in args[i]) {
         obj[key] = args[i][key];
@@ -230,7 +230,7 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
-    var args = Array.prototype.slice.call(arguments).splice(1);
+    var args = Array.prototype.slice.call(arguments, 1);
     for (var i = 0; i < args.length; i++) {
       for (var key in args[i]) {
         obj[key] = obj[key] === undefined ? args[i][key] : obj[key];
@@ -297,7 +297,7 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
-    var myArgs = Array.prototype.slice.call(arguments).slice(2);
+    var myArgs = Array.prototype.slice.call(arguments, 2);
     setTimeout(function() {
       func.apply(null, myArgs);
     }, wait);
@@ -316,7 +316,7 @@
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
     var length = array.length;
-    var shuffled = array.splice();
+    var shuffled = array.slice();
     for (var i = 0, rand; i < array.length; i++) {
       rand = Math.floor(Math.random() * i);
       if (rand !== i) shuffled[i] = shuffled[rand];
@@ -399,7 +399,7 @@
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
     var targets = arguments[0];
-    var remain = Array.prototype.slice.call(arguments).slice(1, arguments.length);
+    var remain = Array.prototype.slice.call(arguments, 1);
     return _.reduce(targets, function(result, target) {
       if (_.every(remain, function(collection) {
           return _.contains(collection, target);
@@ -412,7 +412,7 @@
   // Only the elements present in just the first array will remain.
   _.difference = function() {
     var targets = arguments[0];
-    var remain = Array.prototype.slice.call(arguments).slice(1, arguments.length);
+    var remain = Array.prototype.slice.call(arguments, 1);
     return _.reduce(targets, function(result, target) {
       if (_.every(remain, function(collection) {
           return !_.contains(collection, target);

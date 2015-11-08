@@ -440,7 +440,7 @@
     function runLater() {
       var now = _.now();
       clearTimeout(timer);
-      value = func.apply(null, myArgs);
+      value = func.apply(this, myArgs);
       lastCalled = now;
       queued = false;
     }
@@ -448,7 +448,7 @@
     return function() {
       var now = _.now();
       if ((typeof lastCalled === 'undefined') || (now - lastCalled > wait)) {
-        value = func.apply(null, arguments);
+        value = func.apply(this, arguments);
         lastCalled = now;
       } else if (queued === false) {
         //get remaining time and set timeout to call func
